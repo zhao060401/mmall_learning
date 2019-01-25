@@ -1,14 +1,16 @@
 package com.mmall.common;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 import java.io.Serializable;
 
 /**
  * 公共的返回类
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+/*@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)*/
+@JsonInclude(JsonInclude.Include.NON_NULL)
 //保证序列化时，如果null的对象，key会消失
 public class ServerResponse<T> implements Serializable {
     private int status;
