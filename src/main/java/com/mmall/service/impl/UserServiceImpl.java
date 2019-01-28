@@ -57,12 +57,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ServerResponse<String> checkValid(String string, String type) {
         //type是非空的
-        if (StringUtils.isBlank(type)) {
+        if (StringUtils.isNotBlank(type)) {
             if (type.equals(Const.EMAIL)) {
                 //类型是邮箱
                 int resultCount = userMapper.checkEmail(string);
                 if (resultCount > 0)
-                    return ServerResponse.createByErrorCodeMessage("用户名已经存在");
+                    return ServerResponse.createByErrorCodeMessage("邮箱已经存在");
             }
             if (type.equals(Const.USERNAME)) {
                 //类型是用户名
