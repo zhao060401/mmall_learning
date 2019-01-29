@@ -165,7 +165,7 @@
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="updateTime != null">
-                update_time = new(),
+                update_time = now(),
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
