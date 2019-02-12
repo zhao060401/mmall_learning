@@ -65,9 +65,9 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public ServerResponse selectCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet= Sets.newHashSet();
-        findChildCateGory(categorySet, categoryId);
+        findChildCategory(categorySet, categoryId);
         List<Integer> categoryList= Lists.newArrayList();
-        if (categoryList!=null){
+        if (categoryId!=null){
             for (Category categoryItem:categorySet){
                 categoryList.add(categoryItem.getId());
             }
@@ -76,14 +76,14 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     //递归查询当前节点和子节点
-    private Set<Category> findChildCateGory(Set<Category> categorySet, Integer categoryId) {
+    private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
-        if (categoryId != null) {
+        if (category != null) {
             categorySet.add(category);
         }
-        List<Category> list = categoryMapper.selectCategoryChildrenByParentId(categoryId);
-        for (Category category1 : list) {
-            findChildCateGory(categorySet, category1.getId());
+        List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+        for (Category categoryItem : categoryList) {
+            findChildCategory(categorySet, categoryItem.getId());
         }
         return categorySet;
     }

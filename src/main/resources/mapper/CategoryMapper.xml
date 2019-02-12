@@ -155,7 +155,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectCategoryChildrenByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectCategoryChildrenByParentId" parameterType="int" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from mmall_category
