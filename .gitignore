@@ -18,4 +18,4 @@ target/
 *.tmp
 .DS_Store
 Thumbs.db
-mmall.properties
+/src/main/resources/mmall.properties
