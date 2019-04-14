@@ -15,5 +15,8 @@
     <input type="submit" value="富文本图片上传文件" />
 </form>
 
+
+<img src="/manage/product/getImage.do?fileName=0748ab6a-9df1-4f44-82cd-bb9f10f3baec.jpg" style="width: 10%;height:auto;">图片</img>
+
 </body>
 </html>
