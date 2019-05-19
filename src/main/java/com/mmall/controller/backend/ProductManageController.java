@@ -190,12 +190,12 @@ public class ProductManageController {
     @ResponseBody
     @RequestMapping(value = "getImage.do", method = RequestMethod.GET)
     public void steamImage(String fileName, HttpServletResponse response) throws Exception {
-        System.out.println("进来了！！！！！！！！！！！！！！");
+        //System.out.println("进来了！！！！！！！！！！！！！！");
         int reply;
         Boolean falg = false;
         FTPClient ftp = new FTPClient();
-        ftp.connect("192.168.31.157", 21);//String FTPHOST  FTP端口
-        ftp.login("zhao060401@hotmail.com", "zhaojianqiang+35");// String FTPUSERNAME = "esbftp"; FTP密码
+        ftp.connect(PropertiesUtil.getProperty("ftp.server.ip"), 21);//String FTPHOST  FTP端口
+        ftp.login(PropertiesUtil.getProperty("ftp.user"), PropertiesUtil.getProperty("ftp.pass"));// String FTPUSERNAME = "esbftp"; FTP密码
         reply = ftp.getReplyCode();
         if (!FTPReply.isPositiveCompletion(reply)) {
             ftp.disconnect();
@@ -232,7 +232,7 @@ public class ProductManageController {
                     }
                 }
             }else{
-                System.out.println("没有相同的");
+                //System.out.println("没有相同的");
             }
         }
     }
