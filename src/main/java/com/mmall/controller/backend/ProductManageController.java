@@ -190,7 +190,6 @@ public class ProductManageController {
     @ResponseBody
     @RequestMapping(value = "getImage.do", method = RequestMethod.GET)
     public void steamImage(String fileName, HttpServletResponse response) throws Exception {
-        //System.out.println("进来了！！！！！！！！！！！！！！");
         int reply;
         Boolean falg = false;
         FTPClient ftp = new FTPClient();
@@ -232,7 +231,7 @@ public class ProductManageController {
                     }
                 }
             }else{
-                //System.out.println("没有相同的");
+                System.out.println("没有相同的");
             }
         }
     }
