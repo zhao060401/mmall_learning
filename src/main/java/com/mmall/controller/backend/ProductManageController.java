@@ -9,6 +9,7 @@ import com.mmall.pojo.User;
 import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
+import com.mmall.service.impl.FileServiceImpl;
 import com.mmall.util.PropertiesUtil;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Position;
@@ -17,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +47,7 @@ public class ProductManageController {
     private IProductService iProductService;
     @Autowired
     private IFileService iFileService;
+    private Logger logger = LoggerFactory.getLogger(ProductManageController.class);
 
     @RequestMapping(value = "save.do", method = RequestMethod.POST)
     @ResponseBody
@@ -198,10 +202,11 @@ public class ProductManageController {
         reply = ftp.getReplyCode();
         if (!FTPReply.isPositiveCompletion(reply)) {
             ftp.disconnect();
-            //todo a log
+            logger.info("FTP链接失败，错误码" + reply);
             falg = false;
         }
-       // ftp.changeWorkingDirectory("/");// 转移到FTP服务器目录
+        logger.info("FTP链接成功" + reply);
+        // ftp.changeWorkingDirectory("/");// 转移到FTP服务器目录
         FTPFile[] fs = ftp.listFiles();
         for (FTPFile ff : fs) {
             OutputStream outputStream = null;
@@ -212,25 +217,22 @@ public class ProductManageController {
                     in = ftp.retrieveFileStream(fileName);
                     outputStream = new BufferedOutputStream(response.getOutputStream());
                     Thumbnails.of(in).scale(0.5f).outputQuality(0.5f).toOutputStream(outputStream);
-/*                    outputStream = new BufferedOutputStream(response.getOutputStream());
-                    int ch;
-                    while ((ch = in.read()) != -1) {
-                        outputStream.write(ch);
-                    }*/
-                    in.close();
                     outputStream.flush();
-                    outputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
                     if (outputStream != null) {
                         outputStream.close();
                     }
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (in != null) {
+                        in.close();
+                    }
+                    ftp.disconnect();
                 }
-            }else{
+            } else {
                 System.out.println("没有相同的");
             }
         }
